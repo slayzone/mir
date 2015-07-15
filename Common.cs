@@ -90,7 +90,7 @@ public enum DefaultNPCType : byte
     Daily
 }
 
-public enum IntelligentCreatureType : byte//IntelligentCreature
+public enum IntelligentCreatureType : byte
 {
     None = 99,
     BabyPig = 0,
@@ -542,7 +542,8 @@ public enum ItemType : byte
     Fish = 33,
     Quest = 34,
 	Awakening = 35,
-    Pets = 36,//IntelligentCreature
+    Pets = 36,
+    Transform = 37,
 }
 
 public enum MirGridType : byte
@@ -810,7 +811,8 @@ public enum Spell : byte
     Plague = 82,
     PoisonCloud = 83,
     EnergyShield = 84,
-    
+    PetEnhancer = 85,
+
     //Assassin
     FatalSword = 91,
     DoubleSlash = 92,
@@ -863,14 +865,12 @@ public enum SpellEffect : byte
 {
     None,
     FatalSword,
-    SummonSkeleton,
     Teleport,
     Healing,
     RedMoonEvil,
     TwinDrakeBlade,
     MagicShieldUp,
     MagicShieldDown,
-    FlameSwordCharge,
     GreatFoxSpirit,
     Entrapment,
     Reflect,
@@ -878,8 +878,6 @@ public enum SpellEffect : byte
     Mine,
     ElementalBarrierUp,
     ElementalBarrierDown,
-    FuryUp,
-    FuryDown,
     DelayedExplosion,
     MPEater,
     Hemorrhage,
@@ -888,8 +886,6 @@ public enum SpellEffect : byte
     AwakeningFail,
     AwakeningMiss,
     AwakeningHit,
-    EnergyShieldUp,
-    EnergyShieldDown,
 }
 
 public enum BuffType : byte
@@ -916,13 +912,16 @@ public enum BuffType : byte
     CounterAttack,
     MentalState,
     EnergyShield,
+    MagicBooster,
+    PetEnhancer,
 
+    GameMaster,
     General,
     Exp,
     Drop,
     Gold,
     BagWeight,
-    GameMaster,
+    Transform,
 
     Impact,
     Magic,
@@ -2096,7 +2095,7 @@ public class ItemInfo
     public byte Strong;
     public byte MagicResist, PoisonResist, HealthRecovery, SpellRecovery, PoisonRecovery, HPrate, MPrate;
     public byte CriticalRate, CriticalDamage;
-    public bool NeedIdentify, ShowGroupPickup, BindOnEquip, BindNoSRepair;
+    public bool NeedIdentify, ShowGroupPickup, BindOnEquip, BindNoSRepair; //remove these 2
     public bool ClassBased;
     public bool LevelBased;
     public bool CanMine;
@@ -2104,7 +2103,7 @@ public class ItemInfo
     public bool CanAwakening;
     public byte MaxAcRate, MaxMacRate, Holy, Freezing, PoisonAttack, HpDrainRate;
     
-    public BindMode Bind = BindMode.none;//due to lack of space in bindmodes > bindonequip and srepair are seperate bools for now, if anyone adds 2/3 more bindmodes then it'd be more suitable to upgrade bindmode to short!
+    public BindMode Bind = BindMode.none;
     public byte Reflect;
     public SpecialItemMode Unique = SpecialItemMode.None;
     public byte RandomStatsId;
@@ -2205,7 +2204,7 @@ public class ItemInfo
             Holy = reader.ReadByte();
             Freezing = reader.ReadByte();
             PoisonAttack = reader.ReadByte();
-            if (version < 55)
+            if (version < 56)
             {
                 Bind = (BindMode)reader.ReadByte();
             }
